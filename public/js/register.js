@@ -5,6 +5,20 @@ const repassDOM = document.getElementById('repass');
 const tosDOM = document.getElementById('tos');
 const submitDOM = document.querySelector('form button');
 
+class Validator {
+    constructor(name) {
+        this.name = name;
+    }
+
+    m1() {
+        return this.name + '!';
+    }
+
+    m2() {
+        return this.name + '!!';
+    }
+}
+
 const is = {
     string: (str) => typeof str === 'string' && str.trim() !== '',
     minSize: (str, size) => str.length >= size,
@@ -47,6 +61,20 @@ if (submitDOM) {
 
         if (usernameValid && emailValid && passValid && samePass && tosDOM.checked) {
             console.log('Viskas OK');
+
+            const data = {
+                username: usernameDOM.value,
+                email: emailDOM.value,
+                password: passDOM.value,
+            };
+
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    contentType: 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
         }
     }
 
